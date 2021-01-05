@@ -97,10 +97,10 @@
 				<image item_id_ref="item_0003" number_of_output="1" />
 			</input>
 			<arguments>
-				<parameter key="Sigma" value="4" />
+				<parameter key="Sigma" value="2" />
 				<parameter key="Alpha" value="1.0" />
 				<parameter key="Beta" value="1.0" />
-				<parameter key="Gamma" value="0.1" />
+				<parameter key="Gamma" value="0.2" />
 				<parameter key="ObjectDimension" value="1" />
 				<parameter key="BrightObject" value="1" />
 				<parameter key="ScaleObjectnessMeasure" value="0" />
@@ -132,7 +132,7 @@
 				<image item_id_ref="item_0018" number_of_output="1" />
 			</input>
 			<arguments>
-				<parameter key="Level" value="2" />
+				<parameter key="Level" value="1.5" />
 				<parameter key="MarkWatershedLine" value="0" />
 				<parameter key="Segment3D" value="0" />
 				<parameter key="FullyConnected" value="1" />
