@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpiwit>														<!-- Maybe one xml for the pipeline and one for meta data -->
+	<pipeline>
+		<item item_id="item_0001">				
+			<name>ImageReader</name>					
+			<input>
+				<image item_id_ref="cmd" number_of_output="0" />
+			</input>
+			<arguments>
+				<parameter key="SpacingX" value="1.0" />
+				<parameter key="SpacingY" value="1.0" />
+				<parameter key="SpacingZ" value="1.0" />
+				<parameter key="MaxThreads" value="16" />
+				<parameter key="BufferOriginalImage" value="0" />
+				<parameter key="WriteResult" value="0" />
+			</arguments>
+		</item>
+		<item item_id="item_0002">		
+			<name>RescaleIntensityImageFilter</name>
+			<input>
+				<image item_id_ref="item_0001" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="WriteResult" value="1" />
+				<parameter key="MaxThreads" value="16" />
+			</arguments>
+		</item>
+		<item item_id="item_0003">	
+			<name>MedianImageFilter</name>
+			<input>
+				<image item_id_ref="item_0002" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="WriteResult" value="1" />
+				<parameter key="Radius" value="2" />
+				<parameter key="FilterMask3D" value="0" />
+				<parameter key="MaxThreads" value="16" />
+			</arguments>
+		</item>
+		<item item_id="item_0004">
+			<name>BinaryThresholdImageFilter</name>
+			<input>
+				<image item_id_ref="item_0003" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="WriteResult" value="1" />
+				<parameter key="LowerThreshold" value="0" /> <!-- 0.0126 -->
+				<parameter key="MaxThreads" value="16" />
+			</arguments>
+		</item>
+		<item item_id="item_0005">				
+			<name>MetaReader</name>					
+			<input>
+				<meta item_id_ref="cmd" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="Separator" value=";" />
+				<parameter key="Delimitor" value="." />
+			</arguments>
+		</item>
+		<item item_id="item_0006">				
+			<name>CSVToSeedPointImageFilter</name>					
+			<input>
+				<image item_id_ref="item_0003" number_of_output="1" />
+				<meta item_id_ref="item_0005" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="LabelOutput" value="1" />
+				<parameter key="LabelOffset" value="1" />
+				<parameter key="UseImageSpacing" value="1" />
+				<parameter key="UncertaintyThreshold" value="1.0" />
+				<parameter key="WriteResult" value="1" />
+			</arguments>
+		</item>
+		<item item_id="item_0007">
+			<name>FastMorphologicalOperatorsFilter</name>	
+			<input>
+				<image item_id_ref="item_0006" number_of_output="1" />
+				<image item_id_ref="item_0004" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="Type" value="1" />
+				<parameter key="Radius" value="2" />
+				<parameter key="MinRadius" value="1" />
+				<parameter key="MaxRadius" value="1" />
+				<parameter key="IgnoreBorderRegions" value="0" />
+				<parameter key="FilterMask3D" value="1" />
+				<parameter key="UseImageSpacing" value="0" />
+				<parameter key="UseRadiusRange" value="1" />
+				<parameter key="MaxThreads" value="16" />
+				<parameter key="WriteResult" value="1" />
+			</arguments>
+		</item>
+		<item item_id="item_0015">
+			<name>HessianToObjectnessMeasureImageFilter</name>	
+			<input>
+				<image item_id_ref="item_0003" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="Sigma" value="4" />
+				<parameter key="Alpha" value="1.0" />
+				<parameter key="Beta" value="1.0" />
+				<parameter key="Gamma" value="0.1" />
+				<parameter key="ObjectDimension" value="1" />
+				<parameter key="BrightObject" value="1" />
+				<parameter key="ScaleObjectnessMeasure" value="0" />
+				<parameter key="MaxThreads" value="16" />
+				<parameter key="WriteResult" value="1" />
+			</arguments>
+		</item>
+		<item item_id="item_0018">
+			<name>FastMorphologicalOperatorsFilter</name>	
+			<input>
+				<image item_id_ref="item_0015" number_of_output="1" />
+				<image item_id_ref="item_0004" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="Type" value="2" />
+				<parameter key="Radius" value="1" />
+				<parameter key="MinRadius" value="1" />
+				<parameter key="MaxRadius" value="8" />
+				<parameter key="IgnoreBorderRegions" value="0" />
+				<parameter key="FilterMask3D" value="1" />
+				<parameter key="UseRadiusRange" value="1" />
+				<parameter key="MaxThreads" value="16" />
+				<parameter key="WriteResult" value="1" />
+			</arguments>
+		</item>
+		<item item_id="item_0019">
+			<name>NScaleMorphologicalWatershedFilter</name>	
+			<input>
+				<image item_id_ref="item_0018" number_of_output="1" />
+			</input>
+			<arguments>
+				<parameter key="Level" value="2" />
+				<parameter key="MarkWatershedLine" value="0" />
+				<parameter key="Segment3D" value="0" />
+				<parameter key="FullyConnected" value="1" />
+				<parameter key="MaxThreads" value="16" />
+				<parameter key="WriteResult" value="1" />
+			</arguments>
+		</item>
+	</pipeline>
+</xpiwit>
